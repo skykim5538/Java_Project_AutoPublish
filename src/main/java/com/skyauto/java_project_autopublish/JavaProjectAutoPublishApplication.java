@@ -1,5 +1,9 @@
 package com.skyauto.java_project_autopublish;
 
+import com.openai.client.OpenAIClient;
+import com.openai.client.okhttp.OpenAIOkHttpClient;
+import com.openai.models.responses.Response;
+import com.openai.models.responses.ResponseCreateParams;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,9 +24,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 
 public class JavaProjectAutoPublishApplication {
-
     public static void main(String[] args) {
+
         SpringApplication.run(JavaProjectAutoPublishApplication.class, args);
     }
-
 }
+

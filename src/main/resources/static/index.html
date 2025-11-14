@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spring Boot EC2 CI/CD Demo</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Spring Boot EC2 CI/CD Test</h1>
+    <p class="subtitle">GitHub → CodePipeline → CodeBuild → CodeDeploy → EC2</p>
+
+    <div class="card">
+      <div class="row"><div>Commit</div><div id="commit" class="mono">...</div></div>
+      <div class="row"><div>Built At</div><div id="builtAt" class="mono">...</div></div>
+    </div>
+
+    <p class="hint">자동배포 테스트 </p>
+
+    <p class="footer">
+      접속 주소 http://3.36.52.11:8080/
+    </p>
+  </div>
+
+  <script>
+    fetch('/api/build').then(r=>r.json()).then(d=>{
+      document.getElementById('commit').textContent = d.commit;
+      document.getElementById('builtAt').textContent = d.builtAt;
+    }).catch(()=>{
+      document.getElementById('commit').textContent = 'unknown';
+      document.getElementById('builtAt').textContent = new Date().toISOString();
+    });
+  </script>
+</body>
+</html>

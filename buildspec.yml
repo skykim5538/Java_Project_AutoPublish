@@ -12,21 +12,21 @@ phases:
   pre_build:
     commands:
       - set -euo pipefail
-      - echo "[pre_build] verify pom at app/pom.xml"
-      - '[ -f app/pom.xml ] || { echo "app/pom.xml not found"; ls -la; exit 1; }'
+      - echo "[pre_build] verify pom.xml"
+      - '[ -f pom.xml ] || { echo "pom.xml not found"; ls -la; exit 1; }'
 
   build:
     commands:
       - set -e
       - echo "[build] mvn package (skip tests)"
-      - mvn -B -DskipTests -f app/pom.xml clean package
+      - mvn -B -DskipTests clean package
 
   post_build:
     commands:
       - set -e
       - echo "[post_build] locate jar"
-      - JAR_PATH="$(ls -1 app/target/*.jar | grep -Ev '(-sources|-javadoc|-original)\.jar$' | head -n1 || true)"
-      - '[ -n "${JAR_PATH:-}" ] || { echo "JAR not found under app/target"; ls -la app/target || true; exit 1; }'
+      - JAR_PATH="$(ls -1 target/*.jar | grep -Ev '(-sources|-javadoc|-original)\.jar$' | head -n1 || true)"
+      - '[ -n "${JAR_PATH:-}" ] || { echo "JAR not found"; ls -la target || true; exit 1; }'
       - echo "JAR_PATH=${JAR_PATH}"
       - echo "[post_build] stage artifact/"
       - rm -rf artifact && mkdir -p artifact/app artifact/app/public
@@ -36,7 +36,6 @@ phases:
       - cp -r systemd artifact/
       - printf '{"commit":"%s","builtAt":"%s"}' "$CODEBUILD_RESOLVED_SOURCE_VERSION" "$(date -u +%FT%TZ)" > artifact/app/public/build.json
       - echo "==== artifact tree ====" && find artifact -maxdepth 3 -type f -print
-      - echo "==== appspec.yml =======" && sed -n '1,200p' artifact/appspec.yml
 
 artifacts:
   base-directory: artifact
