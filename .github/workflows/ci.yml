@@ -32,7 +32,7 @@ jobs:
 
       - name: Checkstyle 검사
         run: ./mvnw checkstyle:check
-        continue-on-error: true  # Checkstyle 실패해도 계속 진행
+        continue-on-error: true
 
       - name: 테스트 실행
         run: ./mvnw test
@@ -41,7 +41,7 @@ jobs:
         run: ./mvnw package -DskipTests
 
       - name: 빌드 결과 업로드
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: autopublish-jar
           path: target/*.jar
