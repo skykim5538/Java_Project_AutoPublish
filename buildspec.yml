@@ -1,0 +1,48 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - set -e
+      - echo "[install] check maven"
+      - if ! command -v mvn >/dev/null 2>&1; then yum -y install maven || (apt-get update && apt-get -y install maven); fi
+      - mvn -version || true
+      - java -version || true
+
+  pre_build:
+    commands:
+      - set -euo pipefail
+      - echo "[pre_build] verify pom at app/pom.xml"
+      - '[ -f app/pom.xml ] || { echo "app/pom.xml not found"; ls -la; exit 1; }'
+
+  build:
+    commands:
+      - set -e
+      - echo "[build] mvn package (skip tests)"
+      - mvn -B -DskipTests -f app/pom.xml clean package
+
+  post_build:
+    commands:
+      - set -e
+      - echo "[post_build] locate jar"
+      - JAR_PATH="$(ls -1 app/target/*.jar | grep -Ev '(-sources|-javadoc|-original)\.jar$' | head -n1 || true)"
+      - '[ -n "${JAR_PATH:-}" ] || { echo "JAR not found under app/target"; ls -la app/target || true; exit 1; }'
+      - echo "JAR_PATH=${JAR_PATH}"
+      - echo "[post_build] stage artifact/"
+      - rm -rf artifact && mkdir -p artifact/app artifact/app/public
+      - cp "${JAR_PATH}" artifact/app/app.jar
+      - cp appspec.yml artifact/
+      - cp -r scripts artifact/
+      - cp -r systemd artifact/
+      - printf '{"commit":"%s","builtAt":"%s"}' "$CODEBUILD_RESOLVED_SOURCE_VERSION" "$(date -u +%FT%TZ)" > artifact/app/public/build.json
+      - echo "==== artifact tree ====" && find artifact -maxdepth 3 -type f -print
+      - echo "==== appspec.yml =======" && sed -n '1,200p' artifact/appspec.yml
+
+artifacts:
+  base-directory: artifact
+  files:
+    - appspec.yml
+    - scripts/**/*
+    - systemd/**/*
+    - app/app.jar
+    - app/public/build.json

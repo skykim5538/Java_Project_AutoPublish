@@ -1,6 +1,7 @@
 .env
 nul
 *.key
+*.pem
 *.jar
 !.mvn/wrapper/maven-wrapper.jar
 !gradle/wrapper/gradle-wrapper.jar
