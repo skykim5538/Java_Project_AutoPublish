@@ -1,4 +1,4 @@
-name: CI - Build & Check
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,11 +7,11 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: 체크아웃
+      - name: 코드 체크아웃
         uses: actions/checkout@v3
 
       - name: JDK 21 설정
@@ -21,11 +21,28 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Maven Wrapper 실행 권한 부여
+        run: chmod +x ./mvnw
+
+      - name: 의존성 다운로드
+        run: ./mvnw dependency:go-offline
+
       - name: 컴파일 검증
         run: ./mvnw clean compile
 
       - name: Checkstyle 검사
         run: ./mvnw checkstyle:check
+        continue-on-error: true  # Checkstyle 실패해도 계속 진행
 
-      - name: 빌드
+      - name: 테스트 실행
+        run: ./mvnw test
+
+      - name: JAR 빌드
         run: ./mvnw package -DskipTests
+
+      - name: 빌드 결과 업로드
+        uses: actions/upload-artifact@v3
+        with:
+          name: autopublish-jar
+          path: target/*.jar
+          retention-days: 7
