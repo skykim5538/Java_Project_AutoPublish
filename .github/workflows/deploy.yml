@@ -1,0 +1,23 @@
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: JAR 빌드
+        run: ./mvnw package
+
+      - name: S3 업로드
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::123456789:role/GitHubActionsRole
+          aws-region: ap-northeast-2
+
+      - name: S3에 아티팩트 업로드
+        run: |
+          aws s3 cp target/*.jar s3://my-deploy-bucket/app.jar
+
+      - name: CodeDeploy 배포 트리거
+        run: |
+          aws deploy create-deployment \
+            --application-name MyApp \
+            --deployment-group-name Production \
+            --s3-location bucket=my-deploy-bucket,key=app.jar,bundleType=jar
