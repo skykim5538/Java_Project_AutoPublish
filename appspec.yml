@@ -9,6 +9,8 @@ files:
   - source: systemd/
     destination: /home/ec2-user/systemd
 
+file_exists_behavior: OVERWRITE
+
 permissions:
   - object: /home/ec2-user/scripts
     pattern: "*"
