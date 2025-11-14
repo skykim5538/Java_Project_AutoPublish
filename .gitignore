@@ -1,0 +1,176 @@
+# ================================
+# 1. OS / 공통 환경
+# ================================
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+*.tmp
+*.temp
+# Logs
+*.log
+logs/
+
+# ================================
+# 2. IDE 설정 파일
+# ================================
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse / STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### VS Code ###
+.vscode/
+
+# ================================
+# 3. Gradle / Maven 빌드
+# ================================
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+
+# ================================
+# 4. Spring Boot 설정
+# ================================
+# 환경별 yml, properties (루트 및 resources 폴더 모두)
+application.yml
+application-local.yml
+application-dev.yml
+application-prod.yml
+application-*.yml
+application.properties
+application-*.properties
+src/main/resources/application.yml
+src/main/resources/application-local.yml
+src/main/resources/application-dev.yml
+src/main/resources/application-prod.yml
+src/main/resources/application-*.yml
+src/main/resources/application.properties
+src/main/resources/application-*.properties
+
+# DevTools 자동 리로드 파일
+.reloadtrigger
+
+# ================================
+# 5. Database / Cache
+# ================================
+# H2 DB
+*.db
+*.mv.db
+*.trace.db
+
+# Oracle Wallet
+*.p12
+*.jks
+ewallet.p12
+cwallet.sso
+
+# Cache / Temp
+/cache/
+/tmp/
+.cache/
+
+# ================================
+# 6. FastAPI 관련 (Python)
+# ================================
+# 가상환경
+fastapi/.venv/
+fastapi/venv/
+
+# Python 캐시
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 빌드 산출물
+fastapi/dist/
+fastapi/build/
+*.egg-info/
+
+# Uvicorn 로그
+fastapi/uvicorn.log
+
+# ================================
+# 7. Nginx 관련
+# ================================
+nginx/logs/
+nginx/cache/
+
+# ================================
+# 8. 테스트 / 커버리지
+# ================================
+# JUnit / Pytest / Coverage
+/test-results/
+/coverage/
+*.coverage
+.nyc_output
+
+# JaCoCo
+jacoco.exec
+jacoco-it.exec
+
+# ================================
+# 9. Docker / 배포 관련
+# ================================
+### Docker ###
+Dockerfile.local
+docker-compose.override.yml
+.dockerignore.local
+
+### AWS / GCP ###
+.aws/
+.gcp/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+
+# ================================
+# 10. Node.js (프론트엔드 포함 시)
+# ================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+.env
+nul
+
+# ==============================
+# 11. playwright 관련
+# ==============================
+fastapi/storage/*.json
+*.state.json
+debug_*.png
+/storage/*.json
