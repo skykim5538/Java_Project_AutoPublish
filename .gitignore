@@ -1,9 +1,9 @@
-
 .env
 nul
 *.key
 *.jar
-
+!.mvn/wrapper/maven-wrapper.jar
+!gradle/wrapper/gradle-wrapper.jar
 
 # ================================
 # 1. OS / 공통 환경
@@ -50,7 +50,6 @@ bin/
 # ================================
 .gradle/
 build/
-!gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
@@ -63,26 +62,20 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
-.mvn/
-!.mvn/wrapper/maven-wrapper.jar
 
 # ================================
 # 4. Spring Boot 설정
 # ================================
-# 환경별 yml, properties (루트 및 resources 폴더 모두)
-application.yml
+# 환경별 yml, properties
 application-local.yml
 application-dev.yml
 application-prod.yml
 application-*.yml
-application.properties
 application-*.properties
-src/main/resources/application.yml
 src/main/resources/application-local.yml
 src/main/resources/application-dev.yml
 src/main/resources/application-prod.yml
 src/main/resources/application-*.yml
-src/main/resources/application.properties
 src/main/resources/application-*.properties
 
 # DevTools 자동 리로드 파일
@@ -169,7 +162,6 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
 
 # ==============================
 # 11. playwright 관련

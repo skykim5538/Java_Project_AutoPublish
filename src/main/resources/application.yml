@@ -1,0 +1,98 @@
+spring:
+  application:
+    name: content-automation
+
+  # Profile 설정
+  profiles:
+    active: dev
+
+  # Oracle Database 설정
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: ${DB_USERNAME:system}
+    password: ${DB_PASSWORD:oracle}
+
+    # HikariCP 설정 (Connection Pool)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      pool-name: HikariPool-Oracle
+
+# MyBatis 설정
+mybatis:
+  # Mapper XML 위치
+  mapper-locations: classpath:mapper/**/*.xml
+
+  # VO 패키지 (별칭 자동 등록)
+  type-aliases-package: com.skyauto.vo
+
+  # MyBatis 설정
+  configuration:
+    # snake_case → camelCase 자동 변환
+    map-underscore-to-camel-case: true
+
+    # 쿼리 실행 결과 로깅
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+    # NULL 값 처리
+    jdbc-type-for-null: NULL
+
+    # 기본 Fetch Size
+    default-fetch-size: 100
+
+    # 쿼리 타임아웃 (초)
+    default-statement-timeout: 30
+
+# 외부 API 설정
+api:
+#  # Gemini API
+#  gemini:
+#    base-url: https://generativelanguage.googleapis.com/v1beta
+#    api-key: ${GEMINI_API_KEY:your-gemini-api-key}
+#    model: gemini-pro
+#    timeout: 60000
+
+  # Claude API (Anthropic)
+  claude:
+    base-url: https://api.anthropic.com/v1
+    api-key: ${CLAUDE_API_KEY:your-claude-api-key}
+    model: claude-sonnet-4-20250514
+    max-tokens: 4096
+    timeout: 60000
+
+  # Naver Blog API
+  naver:
+    client-id: ${NAVER_CLIENT_ID:your-client-id}
+    client-secret: ${NAVER_CLIENT_SECRET:your-client-secret}
+    blog-url: https://openapi.naver.com/blog/writePost.json
+
+# 스케줄러 설정
+scheduler:
+  # 매일 08:00 실행
+  cron: "0 0 8 * * ?"
+  enabled: true
+
+# 로깅 설정
+logging:
+  level:
+    root: INFO
+    com.skyauto: DEBUG
+    org.mybatis: DEBUG
+    org.springframework.jdbc: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Server 설정
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
