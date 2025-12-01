@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=ec2-user
 WorkingDirectory=/home/ec2-user/app
-ExecStart=/usr/bin/java -jar /home/ec2-user/app/app.jar demo.SpringbootEc2CicdDemoApplication
+ExecStart=/usr/bin/java -jar /home/ec2-user/app/app.jar
 Restart=always
 RestartSec=5
 
